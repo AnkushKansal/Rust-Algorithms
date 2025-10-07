@@ -5,18 +5,16 @@ pub mod arrays {
     pub fn tour_winner<'a>(matches: Vec<[&'a str; 2]>, results: Vec<u32>) -> &'a str {
         use std::collections::HashMap;
 
-        let mut scores = HashMap::new();
+        let mut records = HashMap::new();
         let mut tour_winner: &str = "";
         for (index, _tuple) in matches.iter().enumerate() {
             let curr_winner: &str;
             curr_winner = matches.get(index).unwrap()[1 - (results[index] as usize)];
 
-            let val = scores.entry(curr_winner).or_insert(0);
+            let val = records.entry(curr_winner).or_insert(0);
             *val += 3;
 
-            if tour_winner.is_empty()
-                || scores.get(&curr_winner).unwrap() > scores.get(&tour_winner).unwrap()
-            {
+            if tour_winner.is_empty() || records.get(&curr_winner).unwrap() > records.get(&tour_winner).unwrap() {
                 tour_winner = curr_winner;
             }
         }
